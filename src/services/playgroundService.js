@@ -1,36 +1,51 @@
-let dummyPlaygrounds = [
-    {
-        CodeId: 1,
-        CodeTitle: "Binary Search Tree",
-        CodeDescription: "Visualizes insert/delete in BST",
-        CodeLanguage: "JavaScript",
-        WrittenCode: "// BST implementation goes here",
-    },
-    {
-        CodeId: 2,
-        CodeTitle: "Dijkstra's Algorithm",
-        CodeDescription: "Finds shortest path in a graph",
-        CodeLanguage: "Python",
-        WrittenCode: "# Dijkstra's algorithm in Python",
-    },
-];
+import { getToken } from "./authService";
 
-export const getPlaygrounds = () => Promise.resolve(dummyPlaygrounds);
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}Api`;
+// let dummyPlaygrounds = [
+//     {
+//         CodeId: 1,
+//         CodeTitle: "Binary Search Tree",
+//         CodeDescription: "Visualizes insert/delete in BST",
+//         WrittenCode: "// BST implementation goes here",
+//     },
+//     {
+//         CodeId: 2,
+//         CodeTitle: "Dijkstra's Algorithm",
+//         CodeDescription: "Finds shortest path in a graph",
+//         WrittenCode: "# Dijkstra's algorithm in Python",
+//     },
+// ];
 
-export const addPlayground = (CodeTitle, CodeDescription, CodeLanguage, WrittenCode = "") => {
-    const newPlayground = {
-        CodeId: dummyPlaygrounds.length + 1,
-        CodeTitle,
-        CodeDescription,
-        CodeLanguage,
-        WrittenCode
-    };
-
-    dummyPlaygrounds.push(newPlayground);
-    return Promise.resolve(newPlayground);
+export const getPlaygrounds = async () => {
+    const token = getToken();
+    let res = await fetch(
+        API_URL + "/codes/user",
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+    return res.json();
 };
 
-export const updatePlayground = (CodeId, CodeTitle, CodeDescription, CodeLanguage, WrittenCode = null) => {
+export const addPlayground = async (codeTitle, codeDescription, writtenCode = "") => {
+    const token = getToken();
+    let res = await fetch(
+        API_URL + "/codes/user",
+        {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ codeTitle, codeDescription, writtenCode}),
+        }
+    );
+    return res.json();
+};
+
+export const updatePlayground = (CodeId, CodeTitle, CodeDescription, WrittenCode = null) => {
     // Find the index of the playground to update
     const playgroundIndex = dummyPlaygrounds.findIndex((p) => p.CodeId === CodeId);
     
@@ -43,7 +58,6 @@ export const updatePlayground = (CodeId, CodeTitle, CodeDescription, CodeLanguag
         ...dummyPlaygrounds[playgroundIndex],
         CodeTitle: CodeTitle || dummyPlaygrounds[playgroundIndex].CodeTitle,
         CodeDescription: CodeDescription || dummyPlaygrounds[playgroundIndex].CodeDescription,
-        CodeLanguage: CodeLanguage || dummyPlaygrounds[playgroundIndex].CodeLanguage,
         ...(WrittenCode !== null && { WrittenCode }) // Only update if provided
     };
     

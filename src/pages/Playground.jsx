@@ -1,11 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import CodeMirror from "@uiw/react-codemirror";
+import CodeMirror, { oneDark } from "@uiw/react-codemirror";
 import Header from "../components/Header";
 
 export default function Playground() {
   const { state } = useLocation();
-  const [code, setCode] = useState(state?.WrittenCode || "");
+  const [code, setCode] = useState(state?.writtenCode || "");
   const [leftPanelWidth, setLeftPanelWidth] = useState(50);
   const containerRef = useRef(null);
   const isDraggingRef = useRef(false);
@@ -56,14 +56,13 @@ export default function Playground() {
         >
           {/* Left Panel */}
           <div 
-            className="bg-white p-4 rounded-l-lg shadow-md h-full overflow-auto transition-all duration-100"
+            className="bg-gray-800 p-4 rounded-l-lg shadow-md h-full overflow-auto transition-all duration-100"
             style={{ width: `${leftPanelWidth}%` }}
           >
-            <h3 className="text-xl font-semibold mb-2">Code Editor</h3>
+            <h3 className="text-xl text-gray-200 font-semibold mb-2">Code Editor</h3>
             <CodeMirror
               value={code}
-              height="100%"
-              theme="light"
+              theme={oneDark}
               onChange={(val) => setCode(val)}
             />
           </div>
