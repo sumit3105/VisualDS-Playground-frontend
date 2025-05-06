@@ -37,12 +37,13 @@ export const addPlayground = async (codeTitle, codeDescription, writtenCode = ""
         {
             method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({ codeTitle, codeDescription, writtenCode}),
         }
     );
-    return res.json();
+    return res.text();
 };
 
 export const updatePlayground = (CodeId, CodeTitle, CodeDescription, WrittenCode = null) => {

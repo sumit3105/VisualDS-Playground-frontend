@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getPlaygrounds, updatePlayground, deletePlayground, addPlayground } from "../services/playgroundService";
 import PlaygroundCard from "../components/PlaygroundCard";
 import Header from "../components/Header";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   
@@ -38,8 +39,10 @@ export default function Dashboard() {
   const handleCreate = async (e) => {
     e.preventDefault();
     const message = await addPlayground(form.title, form.description, "");
-    
-    navigate("/playground", { state: form });
+    if(message === "Code Saved Successfully")
+      navigate("/playground", { state: form });
+    else
+      toast.error(message);
   };
 
   const handleUpdate = async (e) => {
