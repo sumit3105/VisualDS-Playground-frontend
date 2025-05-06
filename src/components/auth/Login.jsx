@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../../services/authService";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import Header from "../Header"; // Adjust path as needed
+import Header from "./Header"; // Adjust path as needed
 
 export default function Login() {
   const [form, setForm] = useState({

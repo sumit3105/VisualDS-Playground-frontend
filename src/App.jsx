@@ -69,6 +69,8 @@ import Signup from "./components/auth/Signup";
 import PrivateRoute from "./routes/PrivateRoute";
 import AuthRoute from "./routes/AuthRoute";
 import Dashboard from "./pages/Dashboard";
+import Playground from "./pages/Playground";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -78,6 +80,8 @@ function App() {
         <Route path="/login" element={<AuthRoute><Login/></AuthRoute>} />
         <Route path="/signup" element={<AuthRoute><Signup/></AuthRoute>} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
+        <Route path="/playground" element={<PrivateRoute><Playground/></PrivateRoute>}/>
+        <Route path="/profile" element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
       </Routes>
     </Router>
   );
