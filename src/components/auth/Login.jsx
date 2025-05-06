@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { login } from "../../services/authService";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Header from "./Header"; // Adjust path as needed
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -26,9 +27,10 @@ export default function Login() {
     setLoading(false);
 
     if (res.success) {
+      toast.success("Login Successed");
       navigate(`/dashboard`);
     } else {
-      alert(res.message || "Login failed");
+      toast.error(res.message || "Login failed");
     }
   };
 

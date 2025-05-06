@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User, LogOut, Settings, ChevronDown } from "lucide-react";
 import { logout } from "../services/authService";
+import { toast } from "react-hot-toast";
 
 export default function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function Header() {
   };
 
   const handleLogout = () => {
+    toast.success("Logged out");
     logout();
     navigate("/login");
   }
@@ -39,7 +41,7 @@ export default function Header() {
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
             <Link 
               to="/profile" 
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-100 flex items-center"
+              className="px-4 py-2 text-sm text-gray-700 hover:bg-indigo-100 flex items-center"
               onClick={() => setIsProfileOpen(false)}
             >
               <User size={16} className="mr-2" />
@@ -47,7 +49,7 @@ export default function Header() {
             </Link>
             <Link 
               to="/login" 
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-100 flex items-center"
+              className="px-4 py-2 text-sm text-gray-700 hover:bg-indigo-100 flex items-center"
               onClick={handleLogout}
             >
               <LogOut size={16} className="mr-2" />

@@ -1,33 +1,44 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPlaygrounds, updatePlayground, deletePlayground } from "../services/playgroundService";
+import { getPlaygrounds, updatePlayground, deletePlayground, addPlayground } from "../services/playgroundService";
 import PlaygroundCard from "../components/PlaygroundCard";
 import Header from "../components/Header";
 
 export default function Dashboard() {
+  
   const [playgrounds, setPlaygrounds] = useState([]);
+  
   const [showCreateModal, setShowCreateModal] = useState(false);
+  
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  
   const [currentPlayground, setCurrentPlayground] = useState(null);
+  
   const [deleteId, setDeleteId] = useState(null);
+  
   const [form, setForm] = useState({ 
     title: "", 
     description: "", 
-    language: "javascript" 
   });
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchData = async () => {
       const data = await getPlaygrounds();
+      console.log("Data:", data);
       setPlaygrounds(data);
+      console.log(playgrounds);
     };
     fetchData();
   }, []);
 
-  const handleCreate = (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
+    const message = await addPlayground(form.title, form.description, "");
+    
     navigate("/playground", { state: form });
   };
 
@@ -35,14 +46,13 @@ export default function Dashboard() {
     e.preventDefault();
     try {
       const updated = await updatePlayground(
-        currentPlayground.CodeId,
+        currentPlayground.codeId,
         form.title,
         form.description,
-        form.language
       );
       
       setPlaygrounds(playgrounds.map(pg => 
-        pg.CodeId === updated.CodeId ? updated : pg
+        pg.codeId === updated.codeId ? updated : pg
       ));
       setShowUpdateModal(false);
     } catch (error) {
@@ -53,7 +63,7 @@ export default function Dashboard() {
   const handleDelete = async () => {
     try {
       await deletePlayground(deleteId);
-      setPlaygrounds(playgrounds.filter(pg => pg.CodeId !== deleteId));
+      setPlaygrounds(playgrounds.filter(pg => pg.codeId !== deleteId));
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Delete failed:", error);
@@ -63,9 +73,8 @@ export default function Dashboard() {
   const openUpdateModal = (playground) => {
     setCurrentPlayground(playground);
     setForm({
-      title: playground.CodeTitle,
-      description: playground.CodeDescription,
-      language: playground.CodeLanguage
+      title: playground.codeTitle,
+      description: playground.codeDescription,
     });
     setShowUpdateModal(true);
   };
@@ -90,13 +99,14 @@ export default function Dashboard() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
+          {console.log("Playgrounds array in render:", playgrounds)}
           {playgrounds.map((pg) => (
             <PlaygroundCard
-              key={pg.CodeId}
+              key={pg.codeId}
               playground={pg}
               onView={() => navigate("/playground", { state: pg })}
               onEdit={() => openUpdateModal(pg)}
-              onDelete={() => openDeleteModal(pg.CodeId)}
+              onDelete={() => openDeleteModal(pg.codeId)}
             />
           ))}
         </div>
@@ -121,16 +131,6 @@ export default function Dashboard() {
               className="w-full p-2 border rounded" 
               placeholder="Description" 
             />
-            <select 
-              name="language" 
-              value={form.language}
-              onChange={(e) => setForm({ ...form, language: e.target.value })} 
-              className="w-full p-2 border rounded"
-            >
-              <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
-              <option value="java">Java</option>
-            </select>
             <div className="flex justify-end gap-2">
               <button 
                 type="button" 
@@ -171,16 +171,6 @@ export default function Dashboard() {
               className="w-full p-2 border rounded" 
               placeholder="Description" 
             />
-            <select 
-              name="language" 
-              value={form.language}
-              onChange={(e) => setForm({ ...form, language: e.target.value })} 
-              className="w-full p-2 border rounded"
-            >
-              <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
-              <option value="java">Java</option>
-            </select>
             <div className="flex justify-end gap-2">
               <button 
                 type="button" 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signup } from "../../services/authService";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { toast } from "react-hot-toast";
 import Header from "./Header"; // Adjust path if needed
 
 export default function Signup() {
@@ -24,13 +25,14 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const res = await signup(form);
+    const res = await signup(form.email, form.password, form.name);
     setLoading(false);
 
     if (res.success) {
+      toast.success(res.message);
       navigate("/login");
     } else {
-      alert(res.message || "Signup failed");
+      toast.error(res.message || "Signup failed");
     }
   };
 
