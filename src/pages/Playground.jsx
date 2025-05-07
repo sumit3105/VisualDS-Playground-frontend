@@ -3,12 +3,12 @@ import { useState, useRef, useEffect } from "react";
 import Header from "../components/Header";
 import { updatePlayground } from "../services/playgroundService";
 import toast from "react-hot-toast";
+import { set } from "date-fns";
 
 export default function Playground() {
     const { state } = useLocation();
     const [code, setCode] = useState(state?.writtenCode || "");
     const [leftPanelWidth, setLeftPanelWidth] = useState(50);
-    const editorRef = useRef(null); // Ref to store the Monaco Editor instance
     const containerRef = useRef(null);
     const isDraggingRef = useRef(false);
     const debounceTimerRef = useRef(null);
@@ -75,69 +75,48 @@ export default function Playground() {
     }, []);
 
     useEffect(() => {
-        const sc1 = document.createElement("script");
-        const sc2 = document.createElement("script");
-        const sc3 = document.createElement("script");
-        sc1.src =
-            "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js";
-        sc2.src =
-            "https://zalaharshpalsinh.github.io/VisualDS/dist/visualds.min.js";
-        sc3.src = "../static/config.js";
-
-        sc1.onload = () => {
-            require.config({
-                paths: {
-                    vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs",
-                },
-            });
-
-            require(["vs/editor/editor.main"], function () {
-                // Fetch custom IntelliSense definitions from an external file
-                fetch(
-                    "https://zalaharshpalsinh.github.io/VisualDS/dist/VisualDS.d.ts"
-                )
-                    .then((response) => {
-                        return response.text();
-                    })
-                    .then((customDefinitions) => {
-                        // customDefinitions
-                        var libUri = "ts:filename/visualds.d.ts";
-                        monaco.languages.typescript.javascriptDefaults.addExtraLib(
-                            customDefinitions,
-                            libUri
-                        );
-                        // When resolving definitions and references, the editor will try to use created models.
-                        // Creating a model for the library allows "peek definition/references" commands to work with the library.
-                        monaco.editor.createModel(
-                            customDefinitions,
-                            "typescript",
-                            monaco.Uri.parse(libUri)
-                        );
-                        editorRef.current = monaco.editor.create(
-                            document.getElementById("editor-container"),
-                            {
-                                value: "let arr = new vArray([10,5,3,7,2,8,2,1]);",
-                                language: "javascript",
-                                theme: "vs-dark",
-                                automaticLayout: true,
-                            }
-                        );
-                        // Listen for changes in the editor and update state
-                        editorRef.current.onDidChangeModelContent(() => {
-                            const newValue = editorRef.current.getValue();
-                            setCode(newValue); // Update state with new value
-                        });
-                        window.editor = editorRef.current;
-                    })
-                    .catch((error) =>
-                        console.log("Failed to load .d.ts file:", error)
+        require.config({
+            paths: {
+                vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs",
+            },
+        });
+        const editor = null;
+        require(["vs/editor/editor.main"], function () {
+            // Fetch custom IntelliSense definitions from an external file
+            fetch(
+                "https://zalaharshpalsinh.github.io/VisualDS/dist/VisualDS.d.ts"
+            )
+                .then((response) => {
+                    return response.text();
+                })
+                .then((customDefinitions) => {
+                    // customDefinitions
+                    var libUri = "ts:filename/visualds.d.ts";
+                    monaco.languages.typescript.javascriptDefaults.addExtraLib(
+                        customDefinitions,
+                        libUri
                     );
-            });
-        };
+                    const editor = monaco.editor.create(
+                        document.getElementById("editor-container"),
+                        {
+                            value: code,
+                            language: "javascript",
+                            theme: "vs-dark",
+                            automaticLayout: true,
+                        }
+                    );
+                    // Listen for changes in the editor and update state
+                    editor.onDidChangeModelContent(() => {
+                        const newValue = editor.getValue();
+                        setCode(newValue); // Update state with new value
+                    });
 
-        document.body.appendChild(sc1);
-        document.body.appendChild(sc2);
-        document.body.appendChild(sc3);
+                    handleVIsualisation(editor);
+                })
+                .catch((error) =>
+                    console.log("Failed to load .d.ts file:", error)
+                );
+        });
     }, []);
 
     return (
