@@ -37,7 +37,7 @@ export default function ProfilePage() {
       setMyPlaygrounds(sortedData);
 
     })();
-  }, []);
+  }, [profile, setProfile]);
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -131,7 +131,7 @@ export default function ProfilePage() {
   // };
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 p-6 bg-gradient-to-br from-indigo-50 to-purple-200 rounded-lg shadow">
+    <div className="max-w-6xl mx-auto mt-8 p-6 bg-gradient-to-br from-indigo-50 to-purple-200 rounded-lg shadow">
       {/* Header */}
       <div className="flex items-center mb-6">
         <div className="flex-1">
@@ -160,9 +160,9 @@ export default function ProfilePage() {
 
       {/* Form for Image Upload */}
       <form onSubmit={handleSubmit}>
-        <div className="space-y-4">
+        <div className="space-y-4 flex justify-center">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="flex justify-center text-md font-medium text-gray-700 mb-1">
               Update Profile Image
             </label>
             <input
