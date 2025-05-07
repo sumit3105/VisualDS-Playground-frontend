@@ -16,6 +16,21 @@ export const getPlaygrounds = async () => {
     return res.json();
 };
 
+export const getAllPlaygrounds = async () => {
+    const token = getToken();
+    let res = await fetch(
+        API_URL + "/codes",
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+
+    return res.json();
+}
+
 export const addPlayground = async (codeTitle, codeDescription, writtenCode = "") => {
     const token = getToken();
     let res = await fetch(

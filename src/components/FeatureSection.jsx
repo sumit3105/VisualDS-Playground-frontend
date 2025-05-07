@@ -31,6 +31,11 @@ const featureData = [
     description:
       "VisualDS is open-source and available on GitHub. Contribute to development or explore the source code to learn how visualizations are powered internally.",
   },
+  {
+    emoji: "🤖",
+    title: "AI Powered Algorithm Generation",
+    description: "VisualDS-Playground Supports AI Powered algorithm generation for beginner who dive into the visualization without learning documentation for VisualDS library."
+  },
 ];
 
 export default function FeaturesSection() {
