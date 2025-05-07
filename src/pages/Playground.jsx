@@ -124,7 +124,6 @@ export default function Playground() {
                         );
                         // Listen for changes in the editor and update state
                         editorRef.current.onDidChangeModelContent(() => {
-                            console.log("Editor content changed");
                             const newValue = editorRef.current.getValue();
                             setCode(newValue); // Update state with new value
                         });
