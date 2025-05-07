@@ -37,8 +37,8 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-r from-purple-600 to-indigo-600">
-      <Header child="signup" />
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-50 to-purple-200">
+      <Header />
 
       <div className="flex flex-1 items-center justify-center">
         <form

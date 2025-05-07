@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import CodeMirror, { oneDark } from "@uiw/react-codemirror";
 import Header from "../components/Header";
+import { updatePlayground } from "../services/playgroundService";
+import toast from "react-hot-toast";
 
 export default function Playground() {
   const { state } = useLocation();
@@ -9,6 +11,7 @@ export default function Playground() {
   const [leftPanelWidth, setLeftPanelWidth] = useState(50);
   const containerRef = useRef(null);
   const isDraggingRef = useRef(false);
+  const debounceTimerRef = useRef(null);
 
   const handleMouseDown = () => {
     isDraggingRef.current = true;
@@ -18,13 +21,11 @@ export default function Playground() {
 
   const handleMouseMove = (e) => {
     if (!isDraggingRef.current || !containerRef.current) return;
-    
+
     const containerRect = containerRef.current.getBoundingClientRect();
     const containerWidth = containerRect.width;
     const mouseX = e.clientX - containerRect.left;
     const newWidth = (mouseX / containerWidth) * 100;
-    
-    // Limit between 20% and 80%
     const clampedWidth = Math.min(Math.max(newWidth, 20), 80);
     setLeftPanelWidth(clampedWidth);
   };
@@ -35,10 +36,39 @@ export default function Playground() {
     document.body.style.userSelect = '';
   };
 
+  // Debounced effect to auto-save code
+  useEffect(() => {
+    if (!state?.codeId) return;
+  
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+  
+    debounceTimerRef.current = setTimeout(() => {
+      const toastId = toast.loading("Saving...");
+  
+      updatePlayground(
+        state.codeId,
+        state.codeTitle,
+        state.codeDescription,
+        code
+      )
+        .then(() => {
+          toast.success("Saved!", { id: toastId });
+        })
+        .catch((err) => {
+          console.error("Auto-save failed:", err);
+          toast.error("Save failed!", { id: toastId });
+        });
+    }, 1000);
+  
+    return () => clearTimeout(debounceTimerRef.current);
+  }, [code, state]);
+  
+
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
@@ -46,16 +76,16 @@ export default function Playground() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-600 to-indigo-600">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-300">
       <Header />
       <div className="p-6">
-        <div 
+        <div
           ref={containerRef}
           className="flex relative"
           style={{ height: 'calc(100vh - 150px)' }}
         >
           {/* Left Panel */}
-          <div 
+          <div
             className="bg-gray-800 p-4 rounded-l-lg shadow-md h-full overflow-auto transition-all duration-100"
             style={{ width: `${leftPanelWidth}%` }}
           >
@@ -68,13 +98,13 @@ export default function Playground() {
           </div>
 
           {/* Resize Handle */}
-          <div 
+          <div
             className="w-2 bg-indigo-400 hover:bg-indigo-500 active:bg-indigo-600 cursor-col-resize transition-colors duration-200"
             onMouseDown={handleMouseDown}
           />
 
           {/* Right Panel */}
-          <div 
+          <div
             className="bg-white p-4 rounded-r-lg shadow-md h-full overflow-auto transition-all duration-100"
             style={{ width: `${100 - leftPanelWidth}%` }}
           >
