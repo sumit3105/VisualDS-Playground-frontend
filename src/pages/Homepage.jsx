@@ -26,7 +26,7 @@ export default function HomePage() {
                         </Button>
                     </a>
                     <a
-                        href="https://drive.google.com/your-doc-link"
+                        href="https://zalaharshpalsinh.github.io/VisualDS/docs/enduser/index.html"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
