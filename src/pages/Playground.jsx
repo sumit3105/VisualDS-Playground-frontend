@@ -46,7 +46,7 @@ export default function Playground() {
   
     debounceTimerRef.current = setTimeout(() => {
       const toastId = toast.loading("Saving...");
-  
+      console.log("none");
       updatePlayground(
         state.codeId,
         state.codeTitle,
