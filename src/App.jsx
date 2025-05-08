@@ -11,22 +11,57 @@ import HomePage from "./pages/Homepage";
 import Toast from "./components/Toast";
 
 function App() {
-  return (
-    // <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<AuthRoute><Login/></AuthRoute>} />
-          <Route path="/signup" element={<AuthRoute><Signup/></AuthRoute>} />
-          <Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
-          <Route path="/playground" element={<PrivateRoute><Playground/></PrivateRoute>}/>
-          <Route path="/profile" element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
-        </Routes>
-        <Toast />
-      </Router>
+    return (
+        // <AuthProvider>
+        <Router basename="/VisualDS-Playground-frontend/">
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route
+                    path="/login"
+                    element={
+                        <AuthRoute>
+                            <Login />
+                        </AuthRoute>
+                    }
+                />
+                <Route
+                    path="/signup"
+                    element={
+                        <AuthRoute>
+                            <Signup />
+                        </AuthRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <PrivateRoute>
+                            <Dashboard />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/playground"
+                    element={
+                        <PrivateRoute>
+                            <Playground />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute>
+                            <ProfilePage />
+                        </PrivateRoute>
+                    }
+                />
+            </Routes>
+            <Toast />
+        </Router>
 
-    // </AuthProvider>
-  );
+        // </AuthProvider>
+    );
 }
 
 export default App;
