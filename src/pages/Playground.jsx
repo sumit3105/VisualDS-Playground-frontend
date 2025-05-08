@@ -28,6 +28,7 @@ export default function Playground() {
   const startDimensionsRef = useRef({ width: 0, height: 0 });
 
   const handleGenerateCode = async () => {
+    const API_URL = import.meta.env.VITE_BACKEND_URL;
     if (!algoType.trim()) {
       toast.error("Please enter an algorithm type");
       return;
@@ -37,7 +38,7 @@ export default function Playground() {
       const token = getToken();
       toast.loading("Generating code...");
       const response = await fetch(
-        "http://localhost:8080/api/algorithm/generate",
+        `${API_URL}api/algorithm/generate`,
         {
           method: "POST",
           headers: {
@@ -57,7 +58,7 @@ export default function Playground() {
 
       // Save code to backend with user ID 5
       const saveResponse = await fetch(
-        "http://localhost:8080/Api/codes/user/5",
+        `${API_URL}Api/codes/user/5`,
         {
           method: "POST",
           headers: {
