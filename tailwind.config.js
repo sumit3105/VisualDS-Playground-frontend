@@ -4,7 +4,6 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  base: "/VisualDS-Playground-frontend/",
   theme: {
     extend: {},
   },
