@@ -44,4 +44,4 @@ jobs:
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   publish_dir: ./dist # Deploy the /dist folder
-                  keep_files: false # Preserve old files (optional)
+                  keep_files: false
