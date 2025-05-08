@@ -6,6 +6,7 @@ import AuthRoute from "./routes/AuthRoute";
 import Dashboard from "./pages/Dashboard";
 import Playground from "./pages/Playground";
 import ProfilePage from "./pages/ProfilePage";
+import OtherProfile from "./pages/OtherProfile";
 import HomePage from "./pages/Homepage";
 import AutoLoginPage from "./components/auth/AutoLogin";
 import Toast from "./components/Toast";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
           <Route path="/playground" element={<PrivateRoute><Playground/></PrivateRoute>}/>
           <Route path="/profile" element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
+          <Route path="/user/:id" element={<PrivateRoute><OtherProfile/></PrivateRoute>}/>
           <Route path="/autologin" element={<AutoLoginPage />} />
         </Routes>
         <Toast />

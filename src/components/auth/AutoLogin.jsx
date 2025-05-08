@@ -26,7 +26,7 @@ export default function AutoLoginPage() {
 
     (async () => {
       try {
-        const res = await login(email, password); // call your backend login API
+        const res = await login(email, password); 
         if (res.success) {
           toast.success("Logged in successfully!");
           navigate("/dashboard"); // redirect to dashboard

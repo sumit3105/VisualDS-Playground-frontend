@@ -17,6 +17,21 @@ export const getProfile = async () => {
     return res.json();
 }
 
+export const getProfileById = async (id) => {
+    const token = getToken();
+
+    let res = await fetch(
+        API_URL + "/user/profile/" + id,
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+    return res.json();
+}
+
 export const updateUserProfile = async (imageFile, name) => {
     const token = getToken();
     const formData = new FormData();

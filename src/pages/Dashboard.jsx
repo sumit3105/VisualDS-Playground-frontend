@@ -47,7 +47,10 @@ export default function Dashboard() {
         const filtered = playgrounds.filter(
           (pg) =>
             pg.codeTitle.toLowerCase().includes(lower) ||
-            pg.codeDescription.toLowerCase().includes(lower)
+            pg.codeDescription.toLowerCase().includes(lower) ||
+            pg.user.name.toLowerCase().includes(lower) ||
+            pg.user.email.toLowerCase().includes(lower) 
+
         );
         setFilteredPlaygrounds(filtered);
       }
