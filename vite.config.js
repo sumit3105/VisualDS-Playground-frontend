@@ -7,5 +7,5 @@ export default defineConfig( {
   server: {
     allowedHosts: [ 'localhost', '1288b0d6fb1b5b.lhr.life' ],
   },
-  base: "https://sumit3105.github.io/VisualDS-Playground-frontend/",
+  base: "/VisualDS-Playground-frontend/",
 } )
