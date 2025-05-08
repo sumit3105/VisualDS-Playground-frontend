@@ -11,11 +11,11 @@ const tokenUserMap = {
 };
 
 export default function AutoLoginPage() {
-  const [searchParams] = useSearchParams();
+  const params = new URLSearchParams(window.location.search);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = searchParams.get("token");
+    const token = params.get("token");
 
     if (!token || !tokenUserMap[token]) {
       toast.error("Invalid access token.");
