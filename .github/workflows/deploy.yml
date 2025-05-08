@@ -30,7 +30,7 @@ jobs:
                   VITE_BACKEND_URL: ${{secrets.VITE_BACKEND_URL}}
                   VITE_GUEST_EMAIL: ${{secrets.VITE_GUEST_EMAIL}}
                   VITE_GUEST_PASSWORD: ${{secrets.VITE_GUEST_PASSWORD}}
-                  VITE_GUEST_SECRET: ${{secrets.VITE_GUEST_SECRET}}
+                  VITE  _GUEST_SECRET: ${{secrets.VITE_GUEST_SECRET}}
               run: npm run build
 
             # Step 6: Copy the config file in dist folder
