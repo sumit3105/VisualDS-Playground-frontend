@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      // Redirect all non-root routes to index.html for react-router to handle
-      const path = window.location.pathname;
+      const currentUrl = location.pathname + location.search + location.hash;
       const repo = "/VisualDS-Playground-frontend";
-      window.location.replace(`${repo}/index.html?redirect=${path}`);
+      const redirectUrl = `${repo}/index.html?redirect=${encodeURIComponent(currentUrl)}`;
+      window.location.replace(redirectUrl);
     </script>
   </head>
   <body></body>
