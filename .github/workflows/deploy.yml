@@ -27,8 +27,15 @@ jobs:
             # Step 4: Add env variables
             - name: Add env variables
               env:
-                  VITE_BACKEND_URL: http://localhost:8080/
-              run: echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" >> $GITHUB_ENV
+                  VITE_BACKEND_URL: https://visualds-playground-server.onrender.com
+                  VITE_GUEST_EMAIL: ignosis123@example.com
+                  VITE_GUEST_PASSWORD: Ignosis@123
+                  VITE_GUEST_SECRET: KWQb2q6O72KMK2
+              run: |
+                  echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" >> $GITHUB_ENV
+                  echo "VITE_GUEST_EMAIL=$VITE_GUEST_EMAIL" >> $GITHUB_ENV
+                  echo "VITE_GUEST_PASSWORD=$VITE_GUEST_PASSWORD" >> $GITHUB_ENV
+                  echo "VITE_GUEST_SECRET=$VITE_GUEST_SECRET" >> $GITHUB_ENV
 
             # Step 5: Build the project
             - name: Build the React app
