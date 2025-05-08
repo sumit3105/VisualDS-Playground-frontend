@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { User, ArrowLeft, Save, Loader2 } from "lucide-react";
+import { User, ArrowLeft, Save, Loader2, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getProfile, updateUserProfile } from "../services/userService";
 import {
@@ -8,7 +8,7 @@ import {
     updatePlayground,
 } from "../services/playgroundService";
 import toast from "react-hot-toast";
-import PlaygroundCard from "../components/PlaygroundCard"; // assuming this exists
+import PlaygroundCard from "../components/PlaygroundCard";
 import Header from "../components/Header";
 
 export default function ProfilePage() {
@@ -23,11 +23,8 @@ export default function ProfilePage() {
     const [previewUrl, setPreviewUrl] = useState(null);
     const [loading, setLoading] = useState(false);
     const [myPlaygrounds, setMyPlaygrounds] = useState([]);
-
     const [showCreateModal, setShowCreateModal] = useState(false);
-
     const [showUpdateModal, setShowUpdateModal] = useState(false);
-
     const [currentPlayground, setCurrentPlayground] = useState(null);
 
     const [form, setForm] = useState({
@@ -41,7 +38,6 @@ export default function ProfilePage() {
             setProfile(user);
 
             const data = await getPlaygrounds();
-            // console.log("Data:", data);
             const sortedData = data.sort(
                 (a, b) => new Date(b.date) - new Date(a.date)
             );
@@ -52,10 +48,11 @@ export default function ProfilePage() {
 
     const handleCreate = async (e) => {
         e.preventDefault();
-        const message = await addPlayground(form.title, form.description, "");
-        if (message === "Code Saved Successfully")
-            navigate("/playground", { state: form });
-        else toast.error(message);
+        const newPlayground = await addPlayground(form.title, form.description, "");
+        if (newPlayground)
+            navigate("/playground", { state: newPlayground });
+        else 
+            toast.error("Playground creation failed");
     };
 
     const handleUpdate = async (e) => {
@@ -75,7 +72,6 @@ export default function ProfilePage() {
             );
 
             setShowUpdateModal(false);
-
             toast.success("Playground updated");
         } catch (error) {
             toast.error(`Update failed: ${error}`);
@@ -143,18 +139,6 @@ export default function ProfilePage() {
         }
     };
 
-    // const handleView = (playground) => {
-    //   navigate(`/view-playground/${playground.codeId}`);
-    // };
-
-    // const handleEdit = (playground) => {
-    //   navigate(`/edit-playground/${playground.codeId}`);
-    // };
-
-    // const handleDelete = (id) => {
-    //   toast("Delete functionality not yet implemented");
-    // };
-
     return (
         <div>
             <Header />
@@ -170,22 +154,31 @@ export default function ProfilePage() {
                             <span>Back</span>
                         </button>
                     </div>
-
                     <div className="flex-1 text-center">
                         <h1 className="text-2xl font-bold text-gray-800">
                             Profile
                         </h1>
                     </div>
-
                     <div className="flex-1" />
                 </div>
 
-                {/* Profile Image */}
-                <div className="flex justify-center mb-6">
+                {/* Profile Image and Info */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8">
                     <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 border flex items-center justify-center">
                         {renderProfileImage()}
                     </div>
+                    <div className="text-center sm:text-left">
+                        <div className="flex items-center gap-2 text-lg text-gray-800 font-semibold">
+                            <User size={20} />
+                            <span>{profile.name || "N/A"}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-gray-600 mt-1">
+                            <Mail size={18} />
+                            <span>{profile.email || "N/A"}</span>
+                        </div>
+                    </div>
                 </div>
+
 
                 {/* Form for Image Upload */}
                 <form onSubmit={handleSubmit}>
@@ -199,12 +192,11 @@ export default function ProfilePage() {
                                 accept="image/*"
                                 onChange={handleImageChange}
                                 className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                         file:rounded-md file:border-0 file:text-sm file:font-semibold
-                         file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+                                    file:rounded-md file:border-0 file:text-sm file:font-semibold
+                                    file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                             />
                         </div>
                     </div>
-
                     {selectedImage && (
                         <div className="mt-6">
                             <button
@@ -232,7 +224,7 @@ export default function ProfilePage() {
                 </form>
 
                 {/* My Playgrounds */}
-                <div className="max-w-5xl mx-auto space-y-6 mt-6">
+                <div className="max-w-5xl mx-auto space-y-6 mt-10">
                     <div className="flex justify-between items-center">
                         <h2 className="text-black text-2xl font-semibold">
                             Your Playgrounds

@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { signup } from "../../services/authService";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
-import Header from "./Header"; // Adjust path if needed
+import Header from "../Header"; // Adjust path if needed
 
 export default function Signup() {
   const [form, setForm] = useState({

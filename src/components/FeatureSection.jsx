@@ -5,19 +5,19 @@ const featureData = [
     emoji: "🧠",
     title: "Interactive DSA Visualizations",
     description:
-      "Visualize classic and advanced data structures and algorithms like Linked Lists, Trees, Graphs, Sorting Algorithms, and more — all in real time with our custom VisualDS library.",
+      "Visualize classic and advanced data structures and algorithms like Linked Array, Searching Algorithms, Sorting Algorithms, and more — all in real time with our custom VisualDS library.",
   },
   {
     emoji: "🛠️",
-    title: "Create & Customize Playgrounds",
+    title: "Create & Share Playgrounds",
     description:
-      "Build your own code playgrounds with custom titles and descriptions. Write and save your own algorithmic code and visualize its working instantly using the integrated editor.",
+      "Build your own code playgrounds with custom titles and descriptions. Copy impressive playgrounds of others. Write and save your own algorithmic code and visualize its working instantly using the integrated editor.",
   },
   {
     emoji: "🗃️",
     title: "Playground Dashboard",
     description:
-      "Manage all your visualizations in one place. The dashboard allows you to Create, View, Update, and Delete playgrounds intuitively, giving full control over your learning workspace.",
+      "Manage all your visualizations in one place. The dashboard allows you to Create, View and Update playgrounds intuitively, giving full control over your learning workspace.",
   },
   {
     emoji: "📚",

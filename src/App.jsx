@@ -7,61 +7,24 @@ import Dashboard from "./pages/Dashboard";
 import Playground from "./pages/Playground";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/Homepage";
-// import { AuthProvider } from "./contexts/AuthContext";
+import AutoLoginPage from "./components/auth/AutoLogin";
 import Toast from "./components/Toast";
 
 function App() {
-    return (
-        // <AuthProvider>
-        <Router basename="/VisualDS-Playground-frontend/">
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route
-                    path="/login"
-                    element={
-                        <AuthRoute>
-                            <Login />
-                        </AuthRoute>
-                    }
-                />
-                <Route
-                    path="/signup"
-                    element={
-                        <AuthRoute>
-                            <Signup />
-                        </AuthRoute>
-                    }
-                />
-                <Route
-                    path="/dashboard"
-                    element={
-                        <PrivateRoute>
-                            <Dashboard />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/playground"
-                    element={
-                        <PrivateRoute>
-                            <Playground />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/profile"
-                    element={
-                        <PrivateRoute>
-                            <ProfilePage />
-                        </PrivateRoute>
-                    }
-                />
-            </Routes>
-            <Toast />
-        </Router>
-
-        // </AuthProvider>
-    );
+  return (
+      <Router basename="/VisualDS-Playground-frontend">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<AuthRoute><Login/></AuthRoute>} />
+          <Route path="/signup" element={<AuthRoute><Signup/></AuthRoute>} />
+          <Route path="/dashboard" element={<PrivateRoute><Dashboard/></PrivateRoute>} />
+          <Route path="/playground" element={<PrivateRoute><Playground/></PrivateRoute>}/>
+          <Route path="/profile" element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
+          <Route path="/autologin" element={<AutoLoginPage />} />
+        </Routes>
+        <Toast />
+      </Router>
+  );
 }
 
 export default App;

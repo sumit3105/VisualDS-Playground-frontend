@@ -33,10 +33,11 @@ export const signup = async (email, password, name) => {
     })
   });
 
-  if(res.status == 401)
-    return { success: false, message: "User already exits" };  
+  const message = res.text();
+  if(message == "Email is already registered!")
+    return { success: false, message: message };
 
-  return { success: true, message: res.text() };
+  return { success: true, message: message };
 };
 
 export const getToken = () => localStorage.getItem("token");

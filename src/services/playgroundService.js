@@ -44,7 +44,7 @@ export const addPlayground = async (codeTitle, codeDescription, writtenCode = ""
             body: JSON.stringify({ codeTitle, codeDescription, writtenCode}),
         }
     );
-    return res.text();
+    return res.json();
 };
 
 export const updatePlayground = async (codeId, codeTitle, codeDescription, writtenCode = "") => {
