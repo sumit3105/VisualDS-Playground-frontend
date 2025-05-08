@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 export default function PlaygroundCard({ playground, onView, onCopy = null, onEdit = null }) {
   const { codeTitle, codeDescription, user, date } = playground;
@@ -14,7 +15,7 @@ export default function PlaygroundCard({ playground, onView, onCopy = null, onEd
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-gray-800">{user.name}</p>
+          <Link to={`/user/${user.id}`}> <p className="font-semibold text-gray-800">{user.name}</p> </Link>
           <p className="text-sm text-gray-500">{user.email}</p>
         </div>
       </div>
