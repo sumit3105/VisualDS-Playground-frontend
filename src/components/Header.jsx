@@ -48,7 +48,7 @@ export default function Header() {
                         Explore
                     </Link>
                     <Link
-                        to="https://zalaharshpalsinh.github.io/VisualDS/docs/enduser/index.html"
+                        to="https://zalaharshpalsinh.github.io/VisualDS/docs/enduser/vArray.html"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-700 hover:text-indigo-600 font-medium flex items-center gap-1"
